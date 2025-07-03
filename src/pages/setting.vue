@@ -3,7 +3,5 @@
 </script>
 
 <template>
-  <VApp>
-    <RouterView />
-  </VApp>
+
 </template>

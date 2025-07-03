@@ -1,136 +1,93 @@
 <script setup>
-import VerticalNavSectionTitle from '@/@layouts/components/VerticalNavSectionTitle.vue'
-import VerticalNavGroup from '@layouts/components/VerticalNavGroup.vue'
-import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
+import VerticalNavSectionTitle from '@/@layouts/components/VerticalNavSectionTitle.vue';
+import VerticalNavLink from '@layouts/components/VerticalNavLink.vue';
 </script>
 
 <template>
-  <!-- 👉 Dashboards -->
-  <VerticalNavGroup
-    :item="{
-      title: 'Dashboards',
-      badgeContent: '5',
-      badgeClass: 'bg-error',
-      icon: 'ri-home-smile-line',
-    }"
-  >
-    <VerticalNavLink
-      :item="{
-        title: 'Analytics',
-        to: '/dashboard',
-      }"
-    />
-  </VerticalNavGroup>
-
-  <!-- 👉 Apps & Pages -->
+  <!-- Point of Sale -->
   <VerticalNavSectionTitle
     :item="{
-      heading: 'Apps & Pages',
-    }"
-  />
-
-
-  <VerticalNavLink
-    :item="{
-      title: 'Account Settings',
-      icon: 'ri-user-settings-line',
-      to: '/account-settings',
+      heading: 'Point of Sale',
     }"
   />
 
   <VerticalNavLink
     :item="{
-      title: 'Login',
-      icon: 'ri-login-box-line',
-      to: '/login',
-    }"
-  />
-  <VerticalNavLink
-    :item="{
-      title: 'Register',
-      icon: 'ri-user-add-line',
-      to: '/register',
-    }"
-  />
-  <VerticalNavLink
-    :item="{
-      title: 'Error',
-      icon: 'ri-information-line',
-      to: '/no-existence',
-    }"
-  />
-
-  <!-- 👉 User Interface -->
-  <VerticalNavSectionTitle
-    :item="{
-      heading: 'User Interface',
-    }"
-  />
-  <VerticalNavLink
-    :item="{
-      title: 'Typography',
-      icon: 'ri-text',
-      to: '/typography',
-    }"
-  />
-  <VerticalNavLink
-    :item="{
-      title: 'Icons',
-      icon: 'ri-remixicon-line',
-      to: '/icons',
-    }"
-  />
-  <VerticalNavLink
-    :item="{
-      title: 'Cards',
-      icon: 'ri-bar-chart-box-line',
-      to: '/cards',
-    }"
-  />
-
-  <!-- 👉 Forms & Tables -->
-  <VerticalNavSectionTitle
-    :item="{
-      heading: 'Forms & Tables',
-    }"
-  />
-  <VerticalNavLink
-    :item="{
-      title: 'Form Layouts',
-      icon: 'ri-layout-4-line',
-      to: '/form-layouts',
-    }"
-  />
-  
-  <VerticalNavLink
-    :item="{
-      title: 'Tables',
-      icon: 'ri-table-alt-line',
+      title: 'โต๊ะอาหาร ',
+      icon: 'mdi-table-account',
       to: '/tables',
     }"
   />
+  <VerticalNavLink
+    :item="{
+      title: 'จองคิว',
+      icon: 'mdi-human-queue',
+      to: '/queue',
+    }"
+  />
+  <VerticalNavLink
+    :item="{
+      title: 'เมนูอาหาร',
+      icon: 'mdi-food',
+      to: '/menu',
+    }"
+  />
+  <VerticalNavLink
+    :item="{
+      title: 'สต็อกสินค้า',
+      icon: 'mdi-archive',
+      to: '/stock',
+    }"
+  />
 
-  <!-- 👉 Others -->
+  <!-- การเงิน -->
   <VerticalNavSectionTitle
     :item="{
-      heading: 'Others',
-    }"
-  />
-  
-  <VerticalNavLink
-    :item="{
-      title: 'Documentation',
-      icon: 'ri-article-line',
-      href: 'https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/documentation/',
-      target: '_blank',
+      heading: 'การเงิน',
     }"
   />
   <VerticalNavLink
     :item="{
-      title: 'Raise Support',
-      href: 'https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free/issues',
-      icon: 'ri-lifebuoy-line',
-      target: '_blank',
+      title: 'รายรับ',
+      icon: 'mdi-cash-multiple',
+      to: '/income',
     }"
   />
+  <VerticalNavLink
+    :item="{
+      title: 'รายจ่าย',
+      icon: 'mdi-cash-minus',
+      to: '/expend',
+    }"
+  />
+  <VerticalNavLink
+    :item="{
+      title: 'ธุรกรรมย้อนหลัง',
+      icon: 'mdi-cash-fast',
+      to: '/transaction',
+    }"
+  />
+
+  <!-- ผู้ดูแลระบบ -->
+  <VerticalNavSectionTitle
+    :item="{
+      heading: 'ผู้ดูแลระบบ',
+    }"
+  />
+  <VerticalNavLink
+    :item="{
+      title: 'ผู้ใช้งาน',
+      icon: 'mdi-account-multiple',
+      to: '/users',
+    }"
+  />
+
+  <VerticalNavLink
+    :item="{
+      title: 'ตั้งค่าระบบ',
+      icon: 'mdi-cogs',
+      to: '/settings',
+    }"
+  />
+
 </template>
