@@ -1,3 +1,5 @@
+<script setup>
+import InfoCard from "@/components/cards/InfoCard.vue";
 import TableInfoCard from "@/components/cards/TableInfoCard.vue";
 
 import { useTableStore } from "@/store/table";
