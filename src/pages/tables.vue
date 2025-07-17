@@ -1,5 +1,14 @@
 <script setup>
 import InfoCard from "@/components/cards/InfoCard.vue";
+import TableInfoCard from "@/components/cards/TableInfoCard.vue";
+
+import { useTableStore } from "@/store/table";
+const tableStore = useTableStore();
+
+const reserveTable = (table) => {
+  table.status = 'reserve'
+  table.checkin = (new Date()).toLocaleTimeString()
+};
 </script>
 <template>
   <VCard>
@@ -11,7 +20,7 @@ import InfoCard from "@/components/cards/InfoCard.vue";
         <VCol cols="3">
           <InfoCard
             title="โต๊ะทั้งหมด"
-            :stats="10"
+            :stats="tableStore.totalTables"
             unit="ตัว"
             icon="mdi-table"
             color="primary"
@@ -20,7 +29,7 @@ import InfoCard from "@/components/cards/InfoCard.vue";
         <VCol cols="3">
           <InfoCard
             title="โต๊ะว่าง"
-            :stats="5"
+            :stats="tableStore.readyTables"
             unit="ตัว"
             icon="mdi-table-plus"
             color="success"
@@ -29,7 +38,7 @@ import InfoCard from "@/components/cards/InfoCard.vue";
         <VCol cols="3">
           <InfoCard
             title="ใช้งานอยู่"
-            :stats="5"
+            :stats="tableStore.reservedTables"
             unit="ตัว"
             icon="mdi-table-account"
             color="warning"
@@ -53,23 +62,14 @@ import InfoCard from "@/components/cards/InfoCard.vue";
   </VCard>
   <VCard class="mt-8">
     <VCardText>
-      <VRow class="mt-4" dense>
-    <VCol
-      v-for="n in 10"
-      :key="n"
-      cols="3"
-    >
-      <VCard
-        class="d-flex align-center justify-center"
-        style="background-color: #a855f7; color: white; height: 100px; cursor: pointer;" 
-        link=""
-        elevation="2"
-      >
-        <VIcon class="me-2">mdi-table</VIcon>
-        โต๊ะที่ {{ n }}
-      </VCard>
-    </VCol>
-  </VRow>
+      <VRow>
+        <VCol v-for="table in tableStore.tables" cols="3" class="d-flex align-center justify-center">
+          <v-btn v-if="table.status=='ready'" @click="reserveTable(table)" size="x-large" block prepend-icon="mdi-table" height="200">            
+            {{ table.name }} - {{ table.status }}
+          </v-btn>
+          <TableInfoCard v-else :table="table"/>
+        </VCol>          
+      </VRow>
     </VCardText>
   </VCard>
 </template>

@@ -86,7 +86,7 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue';
     :item="{
       title: 'ตั้งค่าระบบ',
       icon: 'mdi-cogs',
-      to: '/settings',
+      to: '/setting',
     }"
   />
 
