@@ -1,90 +1,11 @@
-import { defineStore } from "pinia";
+import { call, db } from "@/firebase"
 
 export const useTableStore = defineStore({
   id: "table",
   state: () => {
     return {
+      loading: false,
       tables : [
-        {
-          name : "โต๊ะที่ 1",
-          checkin : "",
-          checkout : "",
-          total : 0,
-          status : "ready",
-          foods : []
-        },
-        {
-          name : "โต๊ะที่ 2",
-          checkin : "",
-          checkout : "",
-          total : 0,
-          status : "ready",
-          foods : []
-        },
-        {
-          name : "โต๊ะที่ 3",
-          checkin : "",
-          checkout : "",
-          total : 0,
-          status : "ready",
-          foods : []
-        },
-        {
-          name : "โต๊ะที่ 4",
-          checkin : "",
-          checkout : "",
-          total : 0,
-          status : "ready",
-          foods : []
-        },
-        {
-          name : "โต๊ะที่ 5",
-          checkin : "13.42",
-          checkout : "",
-          total : 0,
-          status : "ready",
-          foods : []
-        },
-        {
-          name : "โต๊ะที่ 6",
-          checkin : "",
-          checkout : "",
-          total : 0,
-          status : "ready",
-          foods : []
-        },
-        {
-          name : "โต๊ะที่ 7",
-          checkin : "",
-          checkout : "",
-          total : 0,
-          status : "ready",
-          foods : []
-        },
-        {
-          name : "โต๊ะที่ 8",
-          checkin : "",
-          checkout : "",
-          total : 0,
-          status : "ready",
-          foods : []
-        },
-        {
-          name : "โต๊ะที่ 9",
-          checkin : "",
-          checkout : "",
-          total : 0,
-          status : "ready",
-          foods : []
-        },
-        {
-          name : "โต๊ะที่ 10",
-          checkin : "",
-          checkout : "",
-          total : 0,
-          status : "ready",
-          foods : []
-        }
       ]
     }
   },
@@ -94,6 +15,34 @@ export const useTableStore = defineStore({
     reservedTables: (state) => state.tables.filter((table) => table.status !== "ready").length,
   },
   actions: {
+    async addTable(data){
+      this.loading = true
+      let res = await call("addTable", data);
+      if(res.success){
+        this.tables.push(data)
+      }
+      this.loading = false      
+    },
+    async fetchTables(){
+      this.loading = true
+      let res = await call("listTables", {});
+      if(res.success){
+        this.tables = res.data
+      }
+      this.loading = false
+    },
+    async reserveTable(data){
+      this.loading = true
+      let res = await call("reserveTable", data);
+      if(res.success){
+        const table = this.tables.find(table => table.name === data.name)
+        if(table){
+          table.status = "reserved"
+        }
+      }
+      this.loading = false
+    },
+
     addFood(tablename, food) {
       const table = this.tables.find(table => table.name === tablename)
       if(table){
@@ -105,8 +54,9 @@ export const useTableStore = defineStore({
         }
         //calculate total
         table.total = table.foods.reduce((acc, item) => acc + item.price * item.quantity, 0)
-      }      
+      }
     },
+
     clearTable(tablename) {
       const table = this.tables.find(table => table.name === tablename)
       table.checkin = ""
