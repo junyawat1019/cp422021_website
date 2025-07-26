@@ -12,8 +12,8 @@ const firebaseConfig = {
   projectId: "cp422021-6733805371",
   storageBucket: "cp422021-6733805371.firebasestorage.app",
   messagingSenderId: "1061418761223",
-  appId: "1:1061418761223:web:6da799013e134831be7ea2",
-  measurementId: "G-FFBLLDXNXR"
+  appId: "1:1061418761223:web:7ab3e2ef54b47e59be7ea2",
+  measurementId: "G-WQRHTGZBQP"
 };
 //------------------------//
 

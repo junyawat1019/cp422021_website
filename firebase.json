@@ -34,6 +34,18 @@
     "database": {
       "port": 9000
     },
+    "hosting": {
+      "port": 5000
+    },
+    "pubsub": {
+      "port": 8085
+    },
+    "extensions": {
+      "port": 9199
+    },
+    "storage": {
+      "port": 9199
+    },
     "ui": {
       "enabled": true
     },
