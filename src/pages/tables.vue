@@ -1,39 +1,17 @@
 <script setup>
 import InfoCard from "@/components/cards/InfoCard.vue";
 import TableInfoCard from "@/components/cards/TableInfoCard.vue";
-import AddDialog from "@/components/dialogs/AddDialog.vue";
 
 import { useTableStore } from "@/store/table";
 const tableStore = useTableStore();
-const showAddTableDialog = ref(false);
-const tableInitData = ref({
-  name : "",
-  checkin : "",
-  checkout : "",
-  total : 0,
-  status : "ready",
-  foods : []
-});
-const formats = [
-  {md: 12, datatype: 'text', target: 'name', validation: ['required'], props: { label: 'ชื่อโต๊ะ *', clearable: true } },  
-]
 
-const reserveTable = async (table) => {
-  await tableStore.reserveTable(table);
-};
-const availableTable = computed(() => {
-  return tableStore.tables.filter((table) => table.status == 'ready');
-});
-const reservedTable = computed(() => {
-  return tableStore.tables.filter((table) => table.status == 'reserve');
-});
-const addTable = async (data) => {
-  await tableStore.addTable(data);
-  showAddTableDialog.value = false;
+const reserveTable = (table) => {
+  table.status = 'reserve'
+  table.checkin = (new Date()).toLocaleTimeString()
 };
 </script>
 <template>
-  <VCard :loading="tableStore.loading" :disabled="tableStore.loading">
+  <VCard>
     <VCardItem>
       <VCardTitle>โต๊ะในร้าน</VCardTitle>
     </VCardItem>
@@ -42,7 +20,7 @@ const addTable = async (data) => {
         <VCol cols="3">
           <InfoCard
             title="โต๊ะทั้งหมด"
-            :stats="tableStore.tables.length"
+            :stats="tableStore.totalTables"
             unit="ตัว"
             icon="mdi-table"
             color="primary"
@@ -51,7 +29,7 @@ const addTable = async (data) => {
         <VCol cols="3">
           <InfoCard
             title="โต๊ะว่าง"
-            :stats="availableTable.length"
+            :stats="tableStore.readyTables"
             unit="ตัว"
             icon="mdi-table-plus"
             color="success"
@@ -60,7 +38,7 @@ const addTable = async (data) => {
         <VCol cols="3">
           <InfoCard
             title="ใช้งานอยู่"
-            :stats="reservedTable.length"
+            :stats="tableStore.reservedTables"
             unit="ตัว"
             icon="mdi-table-account"
             color="warning"
@@ -71,8 +49,8 @@ const addTable = async (data) => {
             <VBtn                
               class="fill-height"
               variant="text"
-              block              
-              @click="showAddTableDialog = true"
+              block
+              text
             >
               <VIcon>mdi-plus</VIcon>
               เพิมโต๊ะใหม่
@@ -94,11 +72,4 @@ const addTable = async (data) => {
       </VRow>
     </VCardText>
   </VCard>
-  <AddDialog 
-    v-model:isDialogVisible="showAddTableDialog"     
-    :data="tableInitData"
-    title="เพิ่มโต๊ะใหม่" 
-    :format="formats" 
-    @submit="addTable"
-  />
 </template>
