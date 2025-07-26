@@ -46,12 +46,7 @@ const reserveTable = (table) => {
         </VCol>
         <VCol cols="3">
           <VCard class="align-center justify-center d-flex fill-height">
-            <VBtn                
-              class="fill-height"
-              variant="text"
-              block
-              text
-            >
+            <VBtn class="fill-height" variant="text" block text>
               <VIcon>mdi-plus</VIcon>
               เพิมโต๊ะใหม่
             </VBtn>
@@ -67,7 +62,7 @@ const reserveTable = (table) => {
           <v-btn v-if="table.status=='ready'" @click="reserveTable(table)" size="x-large" block prepend-icon="mdi-table" height="200">            
             {{ table.name }} - {{ table.status }}
           </v-btn>
-          <TableInfoCard v-else :table="table"/>
+          <TableInfoCard v-else :table="table" ></TableInfoCard>
         </VCol>          
       </VRow>
     </VCardText>
