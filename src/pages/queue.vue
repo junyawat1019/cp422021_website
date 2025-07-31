@@ -1,10 +1,10 @@
 <script setup>
 import InfoCard from "@/components/cards/InfoCard.vue";
-import { useQueueStore } from "@/store/queue";
 import { useTableStore } from "@/store/table";
+const tableStore = useTableStore();
+import { useQueueStore } from "@/store/queue";
 
 const queueStore = useQueueStore();
-const tableStore = useTableStore();
 
 const addQueueDialog = ref(false);
 const quueuInitData = ref({
@@ -19,18 +19,19 @@ const formats = [
   {md: 6, datatype: 'text', target: 'people', props: { type:"number", label: 'จำนวนคน', clearable: true } },
   {md: 6, datatype: 'text', target: 'phone', props: { label: 'เบอร์โทรศัพท์', clearable: true } },
 ]
-const enqueue = (queue) => {
-  queueStore.queues.push(queue);
+const enqueue = async (queue) => {
+  await queueStore.enqueue(queue);
 };
-const dequeue = () => {
+const dequeue = async (target) => {
   if(queueStore.queues.length === 0){
     return;
   }
-  queueStore.queues.shift();  
+  let queue = target || queueStore.queues[0];
+  await queueStore.dequeue(queue);
 };
 </script>
 <template>
-  <VCard>
+  <VCard :loading="queueStore.loading" :disabled="queueStore.loading">
     <VCardItem>
       <VCardTitle>ระบบจองคิว</VCardTitle>
     </VCardItem>
@@ -39,7 +40,7 @@ const dequeue = () => {
         <VCol cols="3">
           <InfoCard
             title="โต๊ะว่าง"
-            :stats="tableStore.readyTables"
+            :stats="useTableStore.readyTables"
             unit="ตัว"
             icon="mdi-table-plus"
             color="success"
@@ -73,7 +74,7 @@ const dequeue = () => {
               class="fill-height"
               color="primary"
               block
-              @click="dequeue"
+              @click="dequeue()"
             >
               <VIcon class="me-2">mdi-account-voice</VIcon>
               เรียกคิวต่อไป
@@ -85,17 +86,17 @@ const dequeue = () => {
   </VCard>
   <VCard class="mt-5">
     <VList lines="two">
-      <VListItem v-for="queue in queueStore.queues" :key="queue.name">
-        <VListItemTitle>{{ queue.name }} {{ queue.phone }}</VListItemTitle>
-        <VListItemSubtitle>{{ queue.timestamp }} {{ queue.people }}</VListItemSubtitle>
+      <VListItem v-for="(item,index) in queueStore.queues">
+        <VListItemTitle>{{item.name}}</VListItemTitle>
+        <VListItemSubtitle>เข้ามาเมื่อ {{item.timestamp}} ทั้งหมด {{ item.people }} คน</VListItemSubtitle>
         <template v-slot:prepend>
-          <VAvatar color="primary"><span class="text-h5 text-white">1</span></VAvatar>
+          <VAvatar color="primary"><span class="text-h5 text-white">{{ index+1 }}</span></VAvatar>
         </template>
         <template v-slot:append>
-          <span class="text-h6 me-2">รอมาแล้ว 5 นาที</span>
-          <VBtn color="success" class="me-2"><VIcon>mdi-account-voice</VIcon> เรียกคิว</VBtn>
+          <span class="text-h6 me-2">รอมาแล้ว XX นาที</span>
+          <VBtn @click="dequeue(item)" color="success" class="me-2"><VIcon>mdi-account-voice</VIcon> เรียกคิว</VBtn>
         </template>
-      </VListItem>
+      </VListItem>      
     </VList>    
   </VCard>
   <AddDialog 
